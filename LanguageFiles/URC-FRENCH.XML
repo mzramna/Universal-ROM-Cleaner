@@ -1,0 +1,48 @@
+<gui>
+	<main_gui>Universal ROM Cleaner</main_gui>
+	<menu>
+		<mnu_file>Fichier</mnu_file>
+		<mnu_file_langue>Langues</mnu_file_langue>
+		<mnu_file_roms>Charger les roms</mnu_file_roms>
+		<mnu_file_exit>Quitter</mnu_file_exit>
+		<mnu_action>Actions</mnu_action>
+		<mnu_action_simulation>Simulation</mnu_action_simulation>
+		<mnu_action_clean>Nettoyage</mnu_action_clean>
+		<mnu_help>Aide</mnu_help>
+		<mnu_help_about>A propos</mnu_help_about>
+	</menu>
+	<windows>
+		<lv_attribute>Classez les attributs dans l'ordre</lv_attribute>
+		<lv_suppress>Attributs non conservés</lv_suppress>
+		<lv_ignore>Attributs ignorés</lv_ignore>
+		<win_sel_langue>
+			<win_sel_langue_Title>Sélectionner une langue</win_sel_langue_Title>
+			<win_sel_langue_text>Merci de sélectionner une langue</win_sel_langue_text>
+			<win_sel_langue_button>Sélectionner</win_sel_langue_button>
+		</win_sel_langue>
+		<win_sel_rom>
+			<win_sel_rom_Title>Sélectionnez le repertoire des roms</win_sel_rom_Title>
+		</win_sel_rom>
+		<win_About>
+			<win_About_Title>A propos</win_About_Title>
+			<win_About_By>Auteur : Screech</win_About_By>
+			<win_About_Thanks>Remerciement à :</win_About_Thanks>
+		</win_About>
+	</windows>	
+	<progressbar>
+		<prbr_clean_rom_title>Nettoyage des Roms</prbr_clean_rom_title>
+		<prbr_clean_rom_progress0>Nettoyage de la table Temporaire : </prbr_clean_rom_progress0>
+		<prbr_clean_rom_progress1>Création du dictionnaire : </prbr_clean_rom_progress1>
+		<prbr_clean_rom_progress2>Déplacement des roms : </prbr_clean_rom_progress2>
+		<prbr_clean_rom_progress3>Vérification des roms à garder : </prbr_clean_rom_progress3>
+		<prbr_clean_rom_progress4>Remplissage du fichier de simulation : </prbr_clean_rom_progress4>
+		<prbr_createarray_attribut_title>Récupération des attributs</prbr_createarray_attribut_title>
+		<prbr_createarray_attribut_progress>Récupération des attributs : </prbr_createarray_attribut_progress>
+		<prbr_createarray_rom_title>Récupération des roms</prbr_createarray_rom_title>
+		<prbr_createarray_rom_progress>Récupération des roms : </prbr_createarray_rom_progress>
+		<prbr_move_rom_title>Tri des roms</prbr_move_rom_title>
+		<prbr_move_rom_progress>Tri des roms : </prbr_move_rom_progress>
+		<prbr_suppr_rom_title>Retrait des roms</prbr_suppr_rom_title>
+		<prbr_suppr_rom_progress>Retrait des roms non conservées : </prbr_suppr_rom_progress>
+	</progressbar>
+</gui>
