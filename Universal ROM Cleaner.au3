@@ -1,9 +1,9 @@
 #Region ;**** Directives created by AutoIt3Wrapper_GUI ****
 #AutoIt3Wrapper_Icon=Ressources\Universal_Rom_Cleaner.ico
-#AutoIt3Wrapper_Outfile=..\..\BIN\Universal_Rom_Cleaner.exe
-#AutoIt3Wrapper_Outfile_x64=..\..\BIN\Universal_Rom_Cleaner64.exe
+#AutoIt3Wrapper_Outfile=..\BIN\Universal_Rom_Cleaner.exe
+#AutoIt3Wrapper_Outfile_x64=..\BIN\Universal_Rom_Cleaner64.exe
 #AutoIt3Wrapper_Res_Description=Nettoyeur de Rom Universel
-#AutoIt3Wrapper_Res_Fileversion=1.0.0.3
+#AutoIt3Wrapper_Res_Fileversion=1.0.0.1
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=p
 #AutoIt3Wrapper_Res_LegalCopyright=LEGRAS David
 #AutoIt3Wrapper_Res_Language=1036
@@ -32,10 +32,10 @@
 #include <FileConstants.au3>
 #include <ComboConstants.au3>
 
-#include "../Include/_MultiLang.au3"
-#include "../Include/_GUIListViewEx.au3"
-#include "../Include/_ExtMsgBox.au3"
-#include "../Include/_Trim.au3"
+#include "./Include/_MultiLang.au3"
+#include "./Include/_GUIListViewEx.au3"
+#include "./Include/_ExtMsgBox.au3"
+#include "./Include/_Trim.au3"
 
 ;FileInstall
 ;-----------
