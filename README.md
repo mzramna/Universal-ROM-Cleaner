@@ -7,13 +7,14 @@ Ce logiciel vous permet de nettoyer vos romsets facilement en se basant sur les 
 
 __Comment ça marche :__ 
 
-1 - Décompressez l’archive et lancez le fichier EXE.  
-2 - Dans le menu Fichier/Chargez les roms, choisissez le répertoire de votre set à nettoyer.  
-3 - Dans le tableau de gauche, ordonnées vos préférences (ce que vous souhaitez garder le plus en haut, le moins en base)  
-4 - Déplacez dans le tableau en haut a droite ce que vous ne souhaitez pas conserver  
-5 - Déplacez dans le tableau en bas à droite ce qui ne doit pas être pris en compte dans le tris  
-6 - Dans le menu action vous pouvez soit simuler le tri (vous aurez alors un fichier texte avec OK ce qui est gardé, KO ce qui n’est pas gardé) ou directement faire le nettoyage  
-7 - C’est finit, vous avez un beau romset tout propre pour votre recalbox)  
+1 - Telechargez la derniere version : [Universal Rom Cleaner](https://github.com/Universal-Rom-Tools/Universal-ROM-Cleaner/releases)  
+2 - Décompressez l’archive et lancez le fichier EXE.  
+3 - Dans le menu Fichier/Chargez les roms, choisissez le répertoire de votre set à nettoyer.  
+4 - Dans le tableau de gauche, ordonnées vos préférences (ce que vous souhaitez garder le plus en haut, le moins en base)  
+5 - Déplacez dans le tableau en haut a droite ce que vous ne souhaitez pas conserver  
+6 - Déplacez dans le tableau en bas à droite ce qui ne doit pas être pris en compte dans le tris  
+7 - Dans le menu action vous pouvez soit simuler le tri (vous aurez alors un fichier texte avec OK ce qui est gardé, KO ce qui n’est pas gardé) ou directement faire le nettoyage  
+8 - C’est finit, vous avez un beau romset tout propre pour votre recalbox)  
 
 __Informations supplémentaire :__
 Le soft ne supprime rien, il ne fait que déplacer dans un répertoire “ROM_CLEAN” les roms sélectionnées et triées
