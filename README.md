@@ -33,3 +33,9 @@ Le seul fichier gardé sera “mario (Europe) (En,Fr,De).zip”
 Parce que : je lui demande de ne pas garder les “Beta” ou les “Japan” et que dans l’ordre, je garde les fichier “Europe” avant les fichier “USA” et que après ce premier choix, je garde en priorité ceux en “En,Fr,De” avant ceux en “En,Fr,De,Es”
 
 N'hesitez pas à faire des simulation si vous n’êtes pas sur de votre choix 😉
+
+__UDF utilisé__  
+[GUIListViewEx](https://www.autoitscript.com/forum/topic/124980-guilistviewex-new-version-7-mar-16/) par Melba23  
+[Extended Message Box](https://www.autoitscript.com/forum/topic/109096-extended-message-box-bugfix-version-9-aug-15/) par Melba23  
+[MultiLang](https://www.autoitscript.com/forum/topic/118495-multilangau3/) par BrettF  
+[Trim](https://www.autoitscript.com/forum/topic/14173-new-string-trim-functions/) par blitzer99  
