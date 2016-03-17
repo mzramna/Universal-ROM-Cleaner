@@ -37,5 +37,6 @@ N'hesitez pas à faire des simulation si vous n’êtes pas sur de votre choix �
 __UDF utilisé__  
 [GUIListViewEx](https://www.autoitscript.com/forum/topic/124980-guilistviewex-new-version-7-mar-16/) par Melba23  
 [Extended Message Box](https://www.autoitscript.com/forum/topic/109096-extended-message-box-bugfix-version-9-aug-15/) par Melba23  
+[ArrayMultiColSort](https://www.autoitscript.com/forum/topic/155442-arraymulticolsort-new-release-15-sep-15/) par Melba23  
 [MultiLang](https://www.autoitscript.com/forum/topic/118495-multilangau3/) par BrettF  
 [Trim](https://www.autoitscript.com/forum/topic/14173-new-string-trim-functions/) par blitzer99  
