@@ -1,3 +1,9 @@
+# BackUp file
+*_old*.au3
+
+# Test file
+simulation.txt
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
