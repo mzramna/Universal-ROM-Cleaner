@@ -2,6 +2,7 @@
 #AutoIt3Wrapper_Icon=Ressources\Universal_Rom_Cleaner.ico
 #AutoIt3Wrapper_Outfile=..\BIN\Universal_Rom_Cleaner.exe
 #AutoIt3Wrapper_Outfile_x64=..\BIN\Universal_Rom_Cleaner64.exe
+#AutoIt3Wrapper_UseX64=y
 #AutoIt3Wrapper_Res_Description=Nettoyeur de Rom Universel
 #AutoIt3Wrapper_Res_Fileversion=1.0.0.1
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=p
@@ -102,6 +103,7 @@ While 1 ; Gestion de l'interface
 	$nMsg = GUIGetMsg()
 	Switch $nMsg
 		Case $H_MF_ROM ;Menu Fichier/Charger le repertoire des ROMs
+			_GUIListViewEx_Close(0)
 			_GUICtrlListView_DeleteAllItems($H_LV_ATTRIBUTE)
 			_GUICtrlListView_DeleteAllItems($H_LV_SUPPRESS)
 			_GUICtrlListView_DeleteAllItems($H_LV_IGNORE)
