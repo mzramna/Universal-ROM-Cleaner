@@ -147,6 +147,7 @@ While 1 ; Gestion de l'interface
 	EndSwitch
 WEnd
 
+
 ;---------;
 ;Fonctions;
 ;---------;
