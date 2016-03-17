@@ -147,7 +147,6 @@ While 1 ; Gestion de l'interface
 	EndSwitch
 WEnd
 
-
 ;---------;
 ;Fonctions;
 ;---------;
@@ -220,14 +219,14 @@ Func _CREATEARRAY_ATTRIBUT($A_ROMList) ;Creation de la liste des Attributs (Arra
 	Return $A_ROMAttribut
 EndFunc   ;==>_CREATEARRAY_ATTRIBUT
 
-Func _MOVE_ROM($V_ROMPath, $I_LV_ATTRIBUTE, $A_ROMList) ;Definition des ROMs à deplacer (Chemin des ROMs, Indexe de la LV des attributs tries, Array des ROMs)
+Func _MOVE_ROM($V_ROMPath, $I_LV_ATTRIBUTE, $A_ROMList) ;Definition des ROMs a deplacer (Chemin des ROMs, Indexe de la LV des attributs tries, Array des ROMs)
 	Local $A_TEMP_RomList
 	Global $aSortData[][] = [ _
 			[1, 0], _
 			[2, 1]]
 	ProgressOn(_MultiLang_GetText("prbr_move_rom_title"), "", "0%")
 	$A_LV_ATTRIBUTE = _GUIListViewEx_ReturnArray($I_LV_ATTRIBUTE)
-	_ArrayReverse($A_LV_ATTRIBUTE)
+;~ 	_ArrayReverse($A_LV_ATTRIBUTE)
 	For $B_ROMList = 0 To UBound($A_ROMList) - 1
 		$A_ROMList[$B_ROMList][2] = 0
 	Next
@@ -236,9 +235,14 @@ Func _MOVE_ROM($V_ROMPath, $I_LV_ATTRIBUTE, $A_ROMList) ;Definition des ROMs à 
 		$V_ProgressPRC = Round(($B_ROMList * 100) / (UBound($A_ROMList) - 1))
 		ProgressSet($V_ProgressPRC, _MultiLang_GetText("prbr_move_rom_progress") & $V_ProgressPRC & "%")
 		For $B_LV_ATTRIBUTE = 0 To UBound($A_LV_ATTRIBUTE) - 1
-			If StringInStr($A_ROMList[$B_ROMList][0], "(" & $A_LV_ATTRIBUTE[$B_LV_ATTRIBUTE] & ")") > 0 Then $A_ROMList[$B_ROMList][2] = $A_ROMList[$B_ROMList][2] + (($B_LV_ATTRIBUTE + 1) * 10)
+			If StringInStr($A_ROMList[$B_ROMList][0], "(" & $A_LV_ATTRIBUTE[$B_LV_ATTRIBUTE] & ")") > 0 Then
+				If $A_ROMList[$B_ROMList][2] = 0 Then
+					$A_ROMList[$B_ROMList][2] = $A_ROMList[$B_ROMList][2] + (($B_LV_ATTRIBUTE + 1) * 1000)
+				Else
+					$A_ROMList[$B_ROMList][2] = $A_ROMList[$B_ROMList][2] - (100 - (Round((($B_LV_ATTRIBUTE + 1) * 100) / (UBound($A_LV_ATTRIBUTE) - 1))))
+				EndIf
+			EndIf
 		Next
-;~ 		$A_ROMList[$B_ROMList][3] = $A_ROMList[$B_ROMList][1] & $A_ROMList[$B_ROMList][2]
 	Next
 ;~ 	_ArrayDisplay($A_ROMList, '$A_ROMList Completed') ; Debug
 	_ArrayMultiColSort($A_ROMList, $aSortData)
@@ -248,7 +252,7 @@ Func _MOVE_ROM($V_ROMPath, $I_LV_ATTRIBUTE, $A_ROMList) ;Definition des ROMs à 
 	Return $A_ROMList
 EndFunc   ;==>_MOVE_ROM
 
-Func _SUPPR_ROM($V_ROMPath, $I_LV_SUPPRESS, $A_ROMList) ;Definition des ROMs à ne pas garder (Chemin des ROMs, Indexe de la LV des attributs non conserve, Array des ROMs)
+Func _SUPPR_ROM($V_ROMPath, $I_LV_SUPPRESS, $A_ROMList) ;Definition des ROMs a ne pas garder (Chemin des ROMs, Indexe de la LV des attributs non conserve, Array des ROMs)
 	ProgressOn(_MultiLang_GetText("prbr_suppr_rom_title"), "", "0%")
 	$A_LV_SUPPRESS = _GUIListViewEx_ReturnArray($I_LV_SUPPRESS)
 	For $B_ROMList = 0 To UBound($A_ROMList) - 1
