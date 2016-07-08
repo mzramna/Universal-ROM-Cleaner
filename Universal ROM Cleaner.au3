@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compile_Both=y
 #AutoIt3Wrapper_UseX64=y
 #AutoIt3Wrapper_Res_Description=Nettoyeur de Rom Universel
-#AutoIt3Wrapper_Res_Fileversion=1.0.0.3
+#AutoIt3Wrapper_Res_Fileversion=1.0.0.5
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=p
 #AutoIt3Wrapper_Res_LegalCopyright=LEGRAS David
 #AutoIt3Wrapper_Res_Language=1036
@@ -15,10 +15,10 @@
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 
 ;*************************************************************************
-;**									**
-;**						Universal Rom Cleaner	**
-;**						LEGRAS David		**
-;**									**
+;**																		**
+;**						Universal Rom Cleaner							**
+;**						LEGRAS David									**
+;**																		**
 ;*************************************************************************
 
 ;Definition des librairies
@@ -49,6 +49,23 @@ If Not _FileCreate($SOURCE_DIRECTORY & "\test") Then ;Verification des droits en
 Else
 	FileDelete($SOURCE_DIRECTORY & "\test")
 EndIf
+
+Global $Rev
+Global $PathConfigINI = $SOURCE_DIRECTORY & "\URC-config.ini"
+If @Compiled Then
+	$Rev = FileGetVersion(@ScriptFullPath)
+	Local $verINI = IniRead($PathConfigINI, "GENERAL", "$verINI", '0.0.0.0')
+	$Softname = "UniversalXMLScraperV" & $Rev
+	If $verINI <> $Rev Then
+		FileDelete($SOURCE_DIRECTORY & "\URC-config.ini")
+		FileDelete($SOURCE_DIRECTORY & "\LanguageFiles")
+		FileDelete($SOURCE_DIRECTORY & "\Ressources")
+		ConsoleWrite("Ini Deleted" & @CRLF) ;Debug
+	EndIf
+Else
+	$Rev = 'In Progress'
+EndIf
+
 DirCreate($SOURCE_DIRECTORY & "\LanguageFiles")
 DirCreate($SOURCE_DIRECTORY & "\Ressources")
 FileInstall(".\URC-config.ini", $SOURCE_DIRECTORY & "\URC-config.ini")
@@ -58,17 +75,12 @@ FileInstall(".\Ressources\Universal_Rom_Cleaner.ico", $SOURCE_DIRECTORY & "\Ress
 
 ;Definition des Variables
 ;-------------------------
-Global $PathConfigINI = $SOURCE_DIRECTORY & "\URC-config.ini"
+
 Global $LANG_DIR = $SOURCE_DIRECTORY & "\LanguageFiles"; Where we are storing the language files.
 Global $user_lang = IniRead($PathConfigINI, "LAST_USE", "$user_lang", "default")
 Global $path_LOG = IniRead($PathConfigINI, "GENERAL", "Path_LOG", $SOURCE_DIRECTORY & "\log.txt")
 Global $path_SIMUL = IniRead($PathConfigINI, "GENERAL", "path_SIMUL", $SOURCE_DIRECTORY & "\simulation.txt")
 Local $V_ROMPath, $I_LV_ATTRIBUTE, $I_LV_SUPPRESS, $I_LV_IGNORE, $A_ROMList, $A_ROMAttribut
-If @Compiled Then
-	$Rev = "BETA " & FileGetVersion(@ScriptFullPath)
-Else
-	$Rev = 'In Progress'
-EndIf
 
 ;---------;
 ;Principal;
@@ -77,7 +89,7 @@ EndIf
 _LANG_LOAD($LANG_DIR, $user_lang) ;Chargement de la langue par defaut
 
 #Region ### START Koda GUI section ### Form= ;Creation de l'interface
-$F_UniversalCleaner = GUICreate(_MultiLang_GetText("main_gui"), 523, 343, 192, 124)
+$F_UniversalCleaner = GUICreate(_MultiLang_GetText("main_gui") & " - " & $Rev, 523, 343, 192, 124)
 GUISetBkColor(0x34495C)
 $H_MF = GUICtrlCreateMenu(_MultiLang_GetText("mnu_file"))
 $H_MF_ROM = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_file_roms"), $H_MF)
@@ -167,7 +179,9 @@ Func _GUI_REFRESH() ;Rafraichissement de l'interface
 EndFunc   ;==>_GUI_REFRESH
 
 Func _CREATEARRAY_ROM($V_ROMPath) ;Creation de la liste des ROMs (Chemin des ROMs)
-	Local $A_ROMList = _FileListToArray($V_ROMPath, "*.*z*")
+;~ 	Local $A_ROMList = _FileListToArray($V_ROMPath, "*.*z*")
+	$RechFiles = IniRead($PathConfigINI, "GENERAL", "$RechFiles ", "*.*z*")
+	Local $A_ROMList = _FileListToArrayRec($V_ROMPath, $RechFiles, $FLTAR_FILES, $FLTAR_NORECUR, $FLTAR_SORT)
 	ProgressOn(_MultiLang_GetText("prbr_createarray_rom_title"), "", "0%")
 	If @error = 1 Then
 		MsgBox($MB_SYSTEMMODAL, "", $V_ROMPath & " - Path was invalid.")
@@ -373,7 +387,9 @@ Func _LANG_LOAD($LANG_DIR, $user_lang) ;Chargement de la langue (Chemin des fich
 	;Check if the loaded settings file exists.  If not ask user to select language.
 	If $user_lang = -1 Then
 		;Create Selection GUI
-		$user_lang = _LANGUE_SelectGUI($LANGFILES)
+		_MultiLang_LoadLangFile(StringLower(@OSLang))
+		$user_lang = _LANGUE_SelectGUI($LANGFILES, StringLower(@OSLang), -1)
+;~ 		$user_lang = _LANGUE_SelectGUI($LANGFILES)
 		If @error Then
 			MsgBox(48, "Error", "Could not create selection GUI.  Error Code " & @error)
 			Exit
@@ -393,8 +409,8 @@ Func _LANG_LOAD($LANG_DIR, $user_lang) ;Chargement de la langue (Chemin des fich
 	Return $LANGFILES
 EndFunc   ;==>_LANG_LOAD
 
-Func _LANGUE_SelectGUI($_gh_aLangFileArray, $default = @OSLang) ;Interface de selection de la langue (Array des langues, langue par defaut)
-	GUISetState(@SW_DISABLE, $F_UniversalCleaner)
+Func _LANGUE_SelectGUI($_gh_aLangFileArray, $default = @OSLang, $demarrage = 0) ;Interface de selection de la langue (Array des langues, langue par defaut)
+	If $demarrage = 0 Then GUISetState(@SW_DISABLE, $F_UniversalCleaner)
 	If $_gh_aLangFileArray = -1 Then Return SetError(1, 0, 0)
 	If IsArray($_gh_aLangFileArray) = 0 Then Return SetError(1, 0, 0)
 	Local $_multilang_gui_GUI = GUICreate(_MultiLang_GetText("win_sel_langue_Title"), 230, 100)
@@ -417,13 +433,17 @@ Func _LANGUE_SelectGUI($_gh_aLangFileArray, $default = @OSLang) ;Interface de se
 	GUIDelete($_multilang_gui_GUI)
 	For $i = 0 To UBound($_gh_aLangFileArray) - 1
 		If StringInStr($_gh_aLangFileArray[$i][0], $_selected) Then
-			GUISetState(@SW_ENABLE, $F_UniversalCleaner)
-			WinActivate($F_UniversalCleaner)
+			If $demarrage = 0 Then
+				GUISetState(@SW_ENABLE, $F_UniversalCleaner)
+				WinActivate($F_UniversalCleaner)
+			EndIf
 			Return StringLeft($_gh_aLangFileArray[$i][2], 4)
 		EndIf
 	Next
-	GUISetState(@SW_ENABLE, $F_UniversalCleaner)
-	WinActivate($F_UniversalCleaner)
+	If $demarrage = 0 Then
+		GUISetState(@SW_ENABLE, $F_UniversalCleaner)
+		WinActivate($F_UniversalCleaner)
+	EndIf
 	Return $default
 EndFunc   ;==>_LANGUE_SelectGUI
 
