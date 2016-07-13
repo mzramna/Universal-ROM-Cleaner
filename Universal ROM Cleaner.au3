@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compile_Both=y
 #AutoIt3Wrapper_UseX64=y
 #AutoIt3Wrapper_Res_Description=Nettoyeur de Rom Universel
-#AutoIt3Wrapper_Res_Fileversion=1.0.0.5
+#AutoIt3Wrapper_Res_Fileversion=1.0.0.6
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=p
 #AutoIt3Wrapper_Res_LegalCopyright=LEGRAS David
 #AutoIt3Wrapper_Res_Language=1036
@@ -242,7 +242,7 @@ Func _MOVE_ROM($V_ROMPath, $I_LV_ATTRIBUTE, $A_ROMList) ;Definition des ROMs a d
 	$A_LV_ATTRIBUTE = _GUIListViewEx_ReturnArray($I_LV_ATTRIBUTE)
 ;~ 	_ArrayReverse($A_LV_ATTRIBUTE)
 	For $B_ROMList = 0 To UBound($A_ROMList) - 1
-		$A_ROMList[$B_ROMList][2] = 0
+		$A_ROMList[$B_ROMList][2] = 1
 	Next
 ;~ 	_ArrayDisplay($A_ROMList, '$A_ROMList Reversed & Completed') ; Debug
 	For $B_ROMList = 0 To UBound($A_ROMList) - 1
@@ -250,7 +250,7 @@ Func _MOVE_ROM($V_ROMPath, $I_LV_ATTRIBUTE, $A_ROMList) ;Definition des ROMs a d
 		ProgressSet($V_ProgressPRC, _MultiLang_GetText("prbr_move_rom_progress") & $V_ProgressPRC & "%")
 		For $B_LV_ATTRIBUTE = 0 To UBound($A_LV_ATTRIBUTE) - 1
 			If StringInStr($A_ROMList[$B_ROMList][0], "(" & $A_LV_ATTRIBUTE[$B_LV_ATTRIBUTE] & ")") > 0 Then
-				If $A_ROMList[$B_ROMList][2] = 0 Then
+				If $A_ROMList[$B_ROMList][2] = 1 Then
 					$A_ROMList[$B_ROMList][2] = $A_ROMList[$B_ROMList][2] + (($B_LV_ATTRIBUTE + 1) * 1000)
 				Else
 					$A_ROMList[$B_ROMList][2] = $A_ROMList[$B_ROMList][2] - (100 - (Round((($B_LV_ATTRIBUTE + 1) * 100) / (UBound($A_LV_ATTRIBUTE) - 1))))
