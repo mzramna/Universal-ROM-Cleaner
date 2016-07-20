@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compile_Both=y
 #AutoIt3Wrapper_UseX64=y
 #AutoIt3Wrapper_Res_Description=Nettoyeur de Rom Universel
-#AutoIt3Wrapper_Res_Fileversion=1.0.0.6
+#AutoIt3Wrapper_Res_Fileversion=1.0.0.7
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=p
 #AutoIt3Wrapper_Res_LegalCopyright=LEGRAS David
 #AutoIt3Wrapper_Res_Language=1036
@@ -299,7 +299,7 @@ Func _CLEAN_ROM($V_ROMPath, $A_ROMList, $TMP_Action = 0) ;Nettoyage des ROMs (Ch
 		$V_ProgressPRC = Round((((UBound($A_ROMList_CLEAN) - 1) - $B_ROMList_CLEAN) * 100) / (UBound($A_ROMList_CLEAN) - 1))
 		ProgressSet($V_ProgressPRC, _MultiLang_GetText("prbr_clean_rom_progress0") & $V_ProgressPRC & "%")
 		If $B_ROMList_CLEAN <> UBound($A_ROMList_CLEAN) - 1 Then
-			If $A_ROMList_CLEAN[$B_ROMList_CLEAN][1] = $A_ROMList_CLEAN[$B_ROMList_CLEAN + 1][1] Then _ArrayDelete($A_ROMList_CLEAN, $B_ROMList_CLEAN)
+			If $A_ROMList_CLEAN[$B_ROMList_CLEAN][1] = $A_ROMList_CLEAN[$B_ROMList_CLEAN + 1][1] And $A_ROMList_CLEAN[$B_ROMList_CLEAN][2] <> $A_ROMList_CLEAN[$B_ROMList_CLEAN + 1][2] Then _ArrayDelete($A_ROMList_CLEAN, $B_ROMList_CLEAN)
 		EndIf
 	Next
 
