@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compile_Both=y
 #AutoIt3Wrapper_UseX64=y
 #AutoIt3Wrapper_Res_Description=Nettoyeur de Rom Universel
-#AutoIt3Wrapper_Res_Fileversion=1.0.0.7
+#AutoIt3Wrapper_Res_Fileversion=1.0.0.11
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=p
 #AutoIt3Wrapper_Res_LegalCopyright=LEGRAS David
 #AutoIt3Wrapper_Res_Language=1036
@@ -89,7 +89,7 @@ Local $V_ROMPath, $I_LV_ATTRIBUTE, $I_LV_SUPPRESS, $I_LV_IGNORE, $A_ROMList, $A_
 _LANG_LOAD($LANG_DIR, $user_lang) ;Chargement de la langue par defaut
 
 #Region ### START Koda GUI section ### Form= ;Creation de l'interface
-$F_UniversalCleaner = GUICreate(_MultiLang_GetText("main_gui") & " - " & $Rev, 523, 343, 192, 124)
+$F_UniversalCleaner = GUICreate(_MultiLang_GetText("main_gui") & " - " & $Rev, 528, 367, 192, 124, $WS_SYSMENU + $WS_MAXIMIZEBOX)
 GUISetBkColor(0x34495C)
 $H_MF = GUICtrlCreateMenu(_MultiLang_GetText("mnu_file"))
 $H_MF_ROM = GUICtrlCreateMenuItem(_MultiLang_GetText("mnu_file_roms"), $H_MF)
@@ -227,7 +227,7 @@ Func _CREATEARRAY_ATTRIBUT($A_ROMList) ;Creation de la liste des Attributs (Arra
 	$A_ROMAttribut = _ArrayUnique($A_ROMAttribut)
 ;~ 	_ArrayDisplay($A_ROMAttribut, '$A_ROMAttribut Unique') ; Debug
 	_ArrayDelete($A_ROMAttribut, "0;1")
-	_ArraySort($A_ROMAttribut)
+	_ArraySort($A_ROMAttribut, 1)
 ;~ 	_ArrayDisplay($A_ROMAttribut, '$A_ROMAttribut Clean & Sorted') ; Debug
 	ProgressOff()
 	Return $A_ROMAttribut
@@ -251,12 +251,13 @@ Func _MOVE_ROM($V_ROMPath, $I_LV_ATTRIBUTE, $A_ROMList) ;Definition des ROMs a d
 		For $B_LV_ATTRIBUTE = 0 To UBound($A_LV_ATTRIBUTE) - 1
 			If StringInStr($A_ROMList[$B_ROMList][0], "(" & $A_LV_ATTRIBUTE[$B_LV_ATTRIBUTE] & ")") > 0 Then
 				If $A_ROMList[$B_ROMList][2] = 1 Then
-					$A_ROMList[$B_ROMList][2] = $A_ROMList[$B_ROMList][2] + (($B_LV_ATTRIBUTE + 1) * 1000)
+					$A_ROMList[$B_ROMList][2] = $A_ROMList[$B_ROMList][2] + (($B_LV_ATTRIBUTE + 1) * 100000)
 				Else
-					$A_ROMList[$B_ROMList][2] = $A_ROMList[$B_ROMList][2] - (100 - (Round((($B_LV_ATTRIBUTE + 1) * 100) / (UBound($A_LV_ATTRIBUTE) - 1))))
+					$A_ROMList[$B_ROMList][2] = $A_ROMList[$B_ROMList][2] - (10000 - (Round((($B_LV_ATTRIBUTE + 1) * 10000) / (UBound($A_LV_ATTRIBUTE)))))
 				EndIf
 			EndIf
 		Next
+		If $A_ROMList[$B_ROMList][2] = 1 Then $A_ROMList[$B_ROMList][2] = 'MAX'
 	Next
 ;~ 	_ArrayDisplay($A_ROMList, '$A_ROMList Completed') ; Debug
 	_ArrayMultiColSort($A_ROMList, $aSortData)
@@ -314,7 +315,7 @@ Func _CLEAN_ROM($V_ROMPath, $A_ROMList, $TMP_Action = 0) ;Nettoyage des ROMs (Ch
 		Next
 	Next
 
-;~ 	_ArrayDisplay($A_ROMList, "$A_ROMList");Debug
+	_ArrayDisplay($A_ROMList, "$A_ROMList");Debug
 
 	For $B_ROMList = 0 To UBound($A_ROMList) - 1
 		$V_ProgressPRC = Round(($B_ROMList * 100) / (UBound($A_ROMList_SIMUL) - 1))
@@ -322,27 +323,28 @@ Func _CLEAN_ROM($V_ROMPath, $A_ROMList, $TMP_Action = 0) ;Nettoyage des ROMs (Ch
 		If StringLeft($A_ROMList[$B_ROMList][2], 4) = "KEEP" Then
 			$A_ROMList_SIMUL[$B_ROMList][0] = "OK"
 			$A_ROMList_SIMUL[$B_ROMList][1] = StringMid($A_ROMList[$B_ROMList][2], 5)
+			If $TMP_Action = 1 Then FileMove($V_ROMPath & $A_ROMList[$B_ROMList][0], $V_ROMPath & "CLEAN_ROM\", BitOR($FC_OVERWRITE, $FC_CREATEPATH))
 		Else
 			$A_ROMList_SIMUL[$B_ROMList][0] = "KO"
 			$A_ROMList_SIMUL[$B_ROMList][1] = $A_ROMList[$B_ROMList][2]
 		EndIf
 		$A_ROMList_SIMUL[$B_ROMList][2] = $A_ROMList[$B_ROMList][0]
 	Next
-;~ 	_ArrayDisplay($A_ROMList_SIMUL, "$A_ROMList_SIMUL");Debug
+	_ArrayDisplay($A_ROMList_SIMUL, "$A_ROMList_SIMUL");Debug
 	_FileWriteFromArray($path_SIMUL, $A_ROMList_SIMUL)
 
-	If $TMP_Action = 1 Then
-		For $B_ROMList_CLEAN = 0 To UBound($A_ROMList_CLEAN) - 1
-			$V_ProgressPRC = Round(($B_ROMList_CLEAN * 100) / (UBound($A_ROMList_CLEAN) - 1))
-			ProgressSet($V_ProgressPRC, _MultiLang_GetText("prbr_clean_rom_progress2") & $V_ProgressPRC & "%")
-			FileMove($V_ROMPath & $A_ROMList_CLEAN[$B_ROMList_CLEAN][0], $V_ROMPath & "CLEAN_ROM\", BitOR($FC_OVERWRITE, $FC_CREATEPATH))
-		Next
-		ProgressOff()
-	Else
-		ProgressOff()
-		; Display the file.
-		ShellExecute($path_SIMUL)
-	EndIf
+;~ 	If $TMP_Action = 1 Then
+;~ 		For $B_ROMList_CLEAN = 0 To UBound($A_ROMList_CLEAN) - 1
+;~ 			$V_ProgressPRC = Round(($B_ROMList_CLEAN * 100) / (UBound($A_ROMList_CLEAN) - 1))
+;~ 			ProgressSet($V_ProgressPRC, _MultiLang_GetText("prbr_clean_rom_progress2") & $V_ProgressPRC & "%")
+;~ 			FileMove($V_ROMPath & $A_ROMList_CLEAN[$B_ROMList_CLEAN][0], $V_ROMPath & "CLEAN_ROM\", BitOR($FC_OVERWRITE, $FC_CREATEPATH))
+;~ 		Next
+;~ 		ProgressOff()
+;~ 	Else
+	ProgressOff()
+	; Display the file.
+	If $TMP_Action = 0 Then ShellExecute($path_SIMUL)
+;~ 	EndIf
 EndFunc   ;==>_CLEAN_ROM
 
 Func _LANG_LOAD($LANG_DIR, $user_lang) ;Chargement de la langue (Chemin des fichiers de langues, Id de la langue)
