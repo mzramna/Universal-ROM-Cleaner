@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compile_Both=y
 #AutoIt3Wrapper_UseX64=y
 #AutoIt3Wrapper_Res_Description=Nettoyeur de Rom Universel
-#AutoIt3Wrapper_Res_Fileversion=1.0.0.11
+#AutoIt3Wrapper_Res_Fileversion=1.0.0.15
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=p
 #AutoIt3Wrapper_Res_LegalCopyright=LEGRAS David
 #AutoIt3Wrapper_Res_Language=1036
@@ -80,6 +80,7 @@ Global $LANG_DIR = $SOURCE_DIRECTORY & "\LanguageFiles"; Where we are storing th
 Global $user_lang = IniRead($PathConfigINI, "LAST_USE", "$user_lang", "default")
 Global $path_LOG = IniRead($PathConfigINI, "GENERAL", "Path_LOG", $SOURCE_DIRECTORY & "\log.txt")
 Global $path_SIMUL = IniRead($PathConfigINI, "GENERAL", "path_SIMUL", $SOURCE_DIRECTORY & "\simulation.txt")
+Global $Debug = IniRead($PathConfigINI, "GENERAL", "Debug", 0)
 Local $V_ROMPath, $I_LV_ATTRIBUTE, $I_LV_SUPPRESS, $I_LV_IGNORE, $A_ROMList, $A_ROMAttribut
 
 ;---------;
@@ -125,6 +126,7 @@ While 1 ; Gestion de l'interface
 			If StringRight($V_ROMPath, 1) <> '\' Then $V_ROMPath = $V_ROMPath & '\'
 			$A_ROMList = _CREATEARRAY_ROM($V_ROMPath)
 			$A_ROMAttribut = _CREATEARRAY_ATTRIBUT($A_ROMList)
+			If $Debug = 1 Then $A_ROMAttribut = _IMPORTATTRIB($V_ROMPath)
 			For $B_ROMAttribut = 0 To UBound($A_ROMAttribut) - 1
 				_GUICtrlListView_AddItem($H_LV_ATTRIBUTE, $A_ROMAttribut[$B_ROMAttribut])
 			Next
@@ -139,6 +141,7 @@ While 1 ; Gestion de l'interface
 		Case $GUI_EVENT_CLOSE, $H_MF_Exit ;Quitter
 			Exit
 		Case $H_MA_SIMULATION ;Menu Action/Simulation
+			If $Debug = 1 Then _EXPORTATTRIB($V_ROMPath)
 			$A_ROMList = _MOVE_ROM($V_ROMPath, $I_LV_ATTRIBUTE, $A_ROMList)
 			$A_ROMList = _SUPPR_ROM($V_ROMPath, $I_LV_SUPPRESS, $A_ROMList)
 			_CLEAN_ROM($V_ROMPath, $A_ROMList, 0)
@@ -197,7 +200,7 @@ Func _CREATEARRAY_ROM($V_ROMPath) ;Creation de la liste des ROMs (Chemin des ROM
 	For $B_ROMList = 0 To UBound($A_ROMList) - 1
 		$V_ProgressPRC = Round(($B_ROMList * 100) / (UBound($A_ROMList) - 1))
 		ProgressSet($V_ProgressPRC, _MultiLang_GetText("prbr_createarray_rom_progress") & $V_ProgressPRC & "%")
-;~ 		$A_ROMList[$B_ROMList][3] = $A_ROMList[$B_ROMList][0]
+		$A_ROMList[$B_ROMList][3] = $A_ROMList[$B_ROMList][0]
 		$A_ROMList[$B_ROMList][0] = StringReplace($A_ROMList[$B_ROMList][0], '[', '(')
 		$A_ROMList[$B_ROMList][0] = StringReplace($A_ROMList[$B_ROMList][0], ']', ')')
 		$TMP_Path = StringSplit($A_ROMList[$B_ROMList][0], "(")
@@ -241,24 +244,39 @@ Func _MOVE_ROM($V_ROMPath, $I_LV_ATTRIBUTE, $A_ROMList) ;Definition des ROMs a d
 	ProgressOn(_MultiLang_GetText("prbr_move_rom_title"), "", "0%")
 	$A_LV_ATTRIBUTE = _GUIListViewEx_ReturnArray($I_LV_ATTRIBUTE)
 ;~ 	_ArrayReverse($A_LV_ATTRIBUTE)
-	For $B_ROMList = 0 To UBound($A_ROMList) - 1
-		$A_ROMList[$B_ROMList][2] = 1
-	Next
+;~ 	For $B_ROMList = 0 To UBound($A_ROMList) - 1
+;~ 		$A_ROMList[$B_ROMList][2] = 999
+;~ 	Next
+
 ;~ 	_ArrayDisplay($A_ROMList, '$A_ROMList Reversed & Completed') ; Debug
-	For $B_ROMList = 0 To UBound($A_ROMList) - 1
-		$V_ProgressPRC = Round(($B_ROMList * 100) / (UBound($A_ROMList) - 1))
+
+;~ 	For $B_ROMList = 0 To UBound($A_ROMList) - 1
+;~ 		$V_ProgressPRC = Round(($B_ROMList * 100) / (UBound($A_ROMList) - 1))
+;~ 		ProgressSet($V_ProgressPRC, _MultiLang_GetText("prbr_move_rom_progress") & $V_ProgressPRC & "%")
+;~ 		For $B_LV_ATTRIBUTE = 0 To UBound($A_LV_ATTRIBUTE) - 1
+;~ 			If StringInStr($A_ROMList[$B_ROMList][0], "(" & $A_LV_ATTRIBUTE[$B_LV_ATTRIBUTE] & ")") > 0 Then
+;~ 				If $A_ROMList[$B_ROMList][2] = 1 Then
+;~ 					$A_ROMList[$B_ROMList][2] = $A_ROMList[$B_ROMList][2] + (($B_LV_ATTRIBUTE + 1) * 100000)
+;~ 				Else
+;~ 					$A_ROMList[$B_ROMList][2] = $A_ROMList[$B_ROMList][2] - (10000 - (Round((($B_LV_ATTRIBUTE + 1) * 10000) / (UBound($A_LV_ATTRIBUTE)))))
+;~ 				EndIf
+;~ 			EndIf
+;~ 		Next
+;~ 		If $A_ROMList[$B_ROMList][2] = 1 Then $A_ROMList[$B_ROMList][2] = 'MAX'
+;~ 	Next
+
+	For $B_LV_ATTRIBUTE = 0 To UBound($A_LV_ATTRIBUTE) - 1
+		$V_ProgressPRC = Round(($B_LV_ATTRIBUTE * 100) / (UBound($A_LV_ATTRIBUTE) - 1))
 		ProgressSet($V_ProgressPRC, _MultiLang_GetText("prbr_move_rom_progress") & $V_ProgressPRC & "%")
-		For $B_LV_ATTRIBUTE = 0 To UBound($A_LV_ATTRIBUTE) - 1
+		For $B_ROMList = 0 To UBound($A_ROMList) - 1
 			If StringInStr($A_ROMList[$B_ROMList][0], "(" & $A_LV_ATTRIBUTE[$B_LV_ATTRIBUTE] & ")") > 0 Then
-				If $A_ROMList[$B_ROMList][2] = 1 Then
-					$A_ROMList[$B_ROMList][2] = $A_ROMList[$B_ROMList][2] + (($B_LV_ATTRIBUTE + 1) * 100000)
-				Else
-					$A_ROMList[$B_ROMList][2] = $A_ROMList[$B_ROMList][2] - (10000 - (Round((($B_LV_ATTRIBUTE + 1) * 10000) / (UBound($A_LV_ATTRIBUTE)))))
-				EndIf
+				$A_ROMList[$B_ROMList][2] = $A_ROMList[$B_ROMList][2] & (999 - ($B_LV_ATTRIBUTE + 1))
+			Else
+				$A_ROMList[$B_ROMList][2] = $A_ROMList[$B_ROMList][2] & 999
 			EndIf
 		Next
-		If $A_ROMList[$B_ROMList][2] = 1 Then $A_ROMList[$B_ROMList][2] = 'MAX'
 	Next
+
 ;~ 	_ArrayDisplay($A_ROMList, '$A_ROMList Completed') ; Debug
 	_ArrayMultiColSort($A_ROMList, $aSortData)
 ;~ 	_ArraySort($A_ROMList, 0, 0, 0, 3)
@@ -285,6 +303,7 @@ EndFunc   ;==>_SUPPR_ROM
 Func _CLEAN_ROM($V_ROMPath, $A_ROMList, $TMP_Action = 0) ;Nettoyage des ROMs (Chemin des ROMs, Array des ROMs, Action = 0-Simulation;1-Nettoyage)
 	ProgressOn(_MultiLang_GetText("prbr_clean_rom_title"), "", "0%")
 	$A_ROMList_CLEAN = $A_ROMList
+	Local $FileMoved
 
 ;~ 	_ArrayDisplay($A_ROMList_CLEAN, "$A_ROMList_CLEAN Before");Debug
 
@@ -306,7 +325,7 @@ Func _CLEAN_ROM($V_ROMPath, $A_ROMList, $TMP_Action = 0) ;Nettoyage des ROMs (Ch
 
 ;~ 	_ArrayDisplay($A_ROMList_CLEAN, "$A_ROMList_CLEAN After UNIQUE");Debug
 
-	Dim $A_ROMList_SIMUL[UBound($A_ROMList)][3]
+	Dim $A_ROMList_SIMUL[UBound($A_ROMList)][4]
 	For $B_ROMList = 0 To UBound($A_ROMList) - 1
 		$V_ProgressPRC = Round(($B_ROMList * 100) / (UBound($A_ROMList) - 1))
 		ProgressSet($V_ProgressPRC, _MultiLang_GetText("prbr_clean_rom_progress3") & $V_ProgressPRC & "%")
@@ -315,22 +334,32 @@ Func _CLEAN_ROM($V_ROMPath, $A_ROMList, $TMP_Action = 0) ;Nettoyage des ROMs (Ch
 		Next
 	Next
 
-	_ArrayDisplay($A_ROMList, "$A_ROMList");Debug
+;~ 	_ArrayDisplay($A_ROMList, "$A_ROMList");Debug
 
 	For $B_ROMList = 0 To UBound($A_ROMList) - 1
 		$V_ProgressPRC = Round(($B_ROMList * 100) / (UBound($A_ROMList_SIMUL) - 1))
 		ProgressSet($V_ProgressPRC, _MultiLang_GetText("prbr_clean_rom_progress4") & $V_ProgressPRC & "%")
 		If StringLeft($A_ROMList[$B_ROMList][2], 4) = "KEEP" Then
+			$FileMoved = -1
 			$A_ROMList_SIMUL[$B_ROMList][0] = "OK"
-			$A_ROMList_SIMUL[$B_ROMList][1] = StringMid($A_ROMList[$B_ROMList][2], 5)
-			If $TMP_Action = 1 Then FileMove($V_ROMPath & $A_ROMList[$B_ROMList][0], $V_ROMPath & "CLEAN_ROM\", BitOR($FC_OVERWRITE, $FC_CREATEPATH))
+			$A_ROMList_SIMUL[$B_ROMList][3] = StringMid($A_ROMList[$B_ROMList][2], 5)
+			If $TMP_Action = 1 Then $FileMoved = FileMove($V_ROMPath & $A_ROMList[$B_ROMList][3], $V_ROMPath & "CLEAN_ROM\", BitOR($FC_OVERWRITE, $FC_CREATEPATH))
+			Switch $FileMoved
+				Case 1
+					$A_ROMList_SIMUL[$B_ROMList][2] = "MOVED"
+				Case 0
+					$A_ROMList_SIMUL[$B_ROMList][2] = "ERROR"
+				Case Else
+					$A_ROMList_SIMUL[$B_ROMList][2] = "SIMUL"
+			EndSwitch
+
 		Else
 			$A_ROMList_SIMUL[$B_ROMList][0] = "KO"
-			$A_ROMList_SIMUL[$B_ROMList][1] = $A_ROMList[$B_ROMList][2]
+			$A_ROMList_SIMUL[$B_ROMList][3] = $A_ROMList[$B_ROMList][2]
 		EndIf
-		$A_ROMList_SIMUL[$B_ROMList][2] = $A_ROMList[$B_ROMList][0]
+		$A_ROMList_SIMUL[$B_ROMList][1] = $A_ROMList[$B_ROMList][0]
 	Next
-	_ArrayDisplay($A_ROMList_SIMUL, "$A_ROMList_SIMUL");Debug
+;~ 	_ArrayDisplay($A_ROMList_SIMUL, "$A_ROMList_SIMUL");Debug
 	_FileWriteFromArray($path_SIMUL, $A_ROMList_SIMUL)
 
 ;~ 	If $TMP_Action = 1 Then
@@ -449,3 +478,28 @@ Func _LANGUE_SelectGUI($_gh_aLangFileArray, $default = @OSLang, $demarrage = 0) 
 	Return $default
 EndFunc   ;==>_LANGUE_SelectGUI
 
+Func _EXPORTATTRIB($V_ROMPath)
+	$A_EX_SUPPRESS = _GUIListViewEx_ReturnArray($I_LV_SUPPRESS)
+	_FileWriteFromArray(@ScriptDir & "\SUPPR.txt", $A_EX_SUPPRESS)
+	$A_EX_ATTRIBUTE = _GUIListViewEx_ReturnArray($I_LV_ATTRIBUTE)
+	_FileWriteFromArray(@ScriptDir & "\ATTRIB.txt", $A_EX_ATTRIBUTE)
+	$A_EX_IGNORE = _GUIListViewEx_ReturnArray($I_LV_IGNORE)
+	_FileWriteFromArray(@ScriptDir & "\IGNORE.txt", $A_EX_IGNORE)
+	MsgBox(0, "EXPORT", "La liste des Attributs est Exportée : SUPPR.txt, ATTRIB.txt et IGNORE.txt dans : " & @ScriptDir)
+EndFunc   ;==>_EXPORTATTRIB
+
+Func _IMPORTATTRIB($V_ROMPath)
+	_FileReadToArray(@ScriptDir & "\SUPPR.txt", $A_ROMAttribut)
+	_ArrayDelete($A_ROMAttribut, 0)
+	For $B_ROMAttribut = 0 To UBound($A_ROMAttribut) - 1
+		_GUICtrlListView_AddItem($H_LV_SUPPRESS, $A_ROMAttribut[$B_ROMAttribut])
+	Next
+	_FileReadToArray(@ScriptDir & "\IGNORE.txt", $A_ROMAttribut)
+	_ArrayDelete($A_ROMAttribut, 0)
+	For $B_ROMAttribut = 0 To UBound($A_ROMAttribut) - 1
+		_GUICtrlListView_AddItem($H_LV_IGNORE, $A_ROMAttribut[$B_ROMAttribut])
+	Next
+	_FileReadToArray(@ScriptDir & "\ATTRIB.txt", $A_ROMAttribut)
+	_ArrayDelete($A_ROMAttribut, 0)
+	Return $A_ROMAttribut
+EndFunc   ;==>_IMPORTATTRIB
