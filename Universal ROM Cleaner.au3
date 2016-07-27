@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compile_Both=y
 #AutoIt3Wrapper_UseX64=y
 #AutoIt3Wrapper_Res_Description=Nettoyeur de Rom Universel
-#AutoIt3Wrapper_Res_Fileversion=1.0.0.16
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.1
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=p
 #AutoIt3Wrapper_Res_LegalCopyright=LEGRAS David
 #AutoIt3Wrapper_Res_Language=1036
@@ -80,7 +80,7 @@ Global $LANG_DIR = $SOURCE_DIRECTORY & "\LanguageFiles"; Where we are storing th
 Global $user_lang = IniRead($PathConfigINI, "LAST_USE", "$user_lang", "default")
 Global $path_LOG = IniRead($PathConfigINI, "GENERAL", "Path_LOG", $SOURCE_DIRECTORY & "\log.txt")
 Global $path_SIMUL = IniRead($PathConfigINI, "GENERAL", "path_SIMUL", $SOURCE_DIRECTORY & "\simulation.txt")
-Global $Debug = IniRead($PathConfigINI, "GENERAL", "Debug", 0)
+;~ Global $Debug = IniRead($PathConfigINI, "GENERAL", "Debug", "0")
 Local $V_ROMPath, $I_LV_ATTRIBUTE, $I_LV_SUPPRESS, $I_LV_IGNORE, $A_ROMList, $A_ROMAttribut
 
 ;---------;
@@ -126,7 +126,7 @@ While 1 ; Gestion de l'interface
 			If StringRight($V_ROMPath, 1) <> '\' Then $V_ROMPath = $V_ROMPath & '\'
 			$A_ROMList = _CREATEARRAY_ROM($V_ROMPath)
 			$A_ROMAttribut = _CREATEARRAY_ATTRIBUT($A_ROMList)
-			If $Debug = 1 Then $A_ROMAttribut = _IMPORTATTRIB($V_ROMPath)
+;~ 			If $Debug = 1 Then $A_ROMAttribut = _IMPORTATTRIB($V_ROMPath)
 			For $B_ROMAttribut = 0 To UBound($A_ROMAttribut) - 1
 				_GUICtrlListView_AddItem($H_LV_ATTRIBUTE, $A_ROMAttribut[$B_ROMAttribut])
 			Next
@@ -141,7 +141,7 @@ While 1 ; Gestion de l'interface
 		Case $GUI_EVENT_CLOSE, $H_MF_Exit ;Quitter
 			Exit
 		Case $H_MA_SIMULATION ;Menu Action/Simulation
-			If $Debug = 1 Then _EXPORTATTRIB($V_ROMPath)
+;~ 			If $Debug = 1 Then _EXPORTATTRIB($V_ROMPath)
 			$A_ROMList = _MOVE_ROM($V_ROMPath, $I_LV_ATTRIBUTE, $A_ROMList)
 			$A_ROMList = _SUPPR_ROM($V_ROMPath, $I_LV_SUPPRESS, $A_ROMList)
 			_CLEAN_ROM($V_ROMPath, $A_ROMList, 0)
