@@ -1,0 +1,47 @@
+<gui>
+	<main_gui>Universal ROM Cleaner</main_gui>
+	<menu>
+		<mnu_file>Datei</mnu_file>
+		<mnu_file_langue>Sprachen</mnu_file_langue>
+		<mnu_file_roms>Lade ROMS</mnu_file_roms>
+		<mnu_file_exit>Beenden</mnu_file_exit>
+		<mnu_action>Aktionen</mnu_action>
+		<mnu_action_simulation>Simulation</mnu_action_simulation>
+		<mnu_action_clean>Bereinigen</mnu_action_clean>
+		<mnu_help>Hilfe</mnu_help>
+		<mnu_help_about>Über</mnu_help_about>
+	</menu>
+	<windows>
+		<lv_attribute>Auswahl Attribute</lv_attribute>
+		<lv_suppress>Abgelehnte Attribute</lv_suppress>
+		<lv_ignore>Ignorierte Attribute</lv_ignore>
+		<win_sel_langue>
+			<win_sel_langue_Title>Sprache wählen</win_sel_langue_Title>
+			<win_sel_langue_text>Bitte wähle eine Sprache</win_sel_langue_text>
+			<win_sel_langue_button>Auswählen</win_sel_langue_button>
+		</win_sel_langue>
+		<win_sel_rom>
+			<win_sel_rom_Title>Wähle ROM Verzeichnis</win_sel_rom_Title>
+		</win_sel_rom>
+		<win_About>
+			<win_About_Title>Über</win_About_Title>
+			<win_About_By>Erstellt von: Screech</win_About_By>
+			<win_About_Thanks>Dank an:</win_About_Thanks>
+		</win_About>
+	</windows>	
+	<progressbar>
+		<prbr_clean_rom_title>Bereinige ROMS</prbr_clean_rom_title>
+		<prbr_clean_rom_progress1>Erstelle temporäre Tabelle: </prbr_clean_rom_progress1>
+		<prbr_clean_rom_progress2>Verschiebe ROMS: </prbr_clean_rom_progress2>
+		<prbr_clean_rom_progress3>Prüfe zu behaltene ROMS: </prbr_clean_rom_progress3>
+		<prbr_clean_rom_progress4>Fülle die Simulationsdatei: </prbr_clean_rom_progress4>
+		<prbr_createarray_attribut_title>Lade Attribute</prbr_createarray_attribut_title>
+		<prbr_createarray_attribut_progress>Attribute werden geladen: </prbr_createarray_attribut_progress>
+		<prbr_createarray_rom_title>Lade ROMS</prbr_createarray_rom_title>
+		<prbr_createarray_rom_progress>ROMS werden geladen: </prbr_createarray_rom_progress>
+		<prbr_move_rom_title>Sortiere ROMS</prbr_move_rom_title>
+		<prbr_move_rom_progress>ROMS werden sortiert: </prbr_move_rom_progress>
+		<prbr_suppr_rom_title>Schliesse ROMS aus</prbr_suppr_rom_title>
+		<prbr_suppr_rom_progress>ROMS werden ausgeschlossen: </prbr_suppr_rom_progress>
+	</progressbar>
+</gui>
