@@ -5,7 +5,7 @@
 #AutoIt3Wrapper_Compile_Both=y
 #AutoIt3Wrapper_UseX64=y
 #AutoIt3Wrapper_Res_Description=Nettoyeur de Rom Universel
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.1
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.2
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=p
 #AutoIt3Wrapper_Res_LegalCopyright=LEGRAS David
 #AutoIt3Wrapper_Res_Language=1036
@@ -71,6 +71,7 @@ DirCreate($SOURCE_DIRECTORY & "\Ressources")
 FileInstall(".\URC-config.ini", $SOURCE_DIRECTORY & "\URC-config.ini")
 FileInstall(".\LanguageFiles\URC-ENGLISH.XML", $SOURCE_DIRECTORY & "\LanguageFiles\URC-ENGLISH.XML")
 FileInstall(".\LanguageFiles\URC-FRENCH.XML", $SOURCE_DIRECTORY & "\LanguageFiles\URC-FRENCH.XML")
+FileInstall(".\LanguageFiles\URC-GERMAN.XML", $SOURCE_DIRECTORY & "\LanguageFiles\URC-GERMAN.XML")
 FileInstall(".\Ressources\Universal_Rom_Cleaner.ico", $SOURCE_DIRECTORY & "\Ressources\Universal_Rom_Cleaner.ico")
 
 ;Definition des Variables
@@ -382,7 +383,7 @@ Func _LANG_LOAD($LANG_DIR, $user_lang) ;Chargement de la langue (Chemin des fich
 	; [n][0] = Display Name in Local Language (Used for Select Function)
 	; [n][1] = Language File (Full path.  In this case we used a $LANG_DIR
 	; [n][2] = [Space delimited] Character codes as used by @OS_LANG (used to select correct lang file)
-	Local $LANGFILES[2][3]
+	Local $LANGFILES[3][3]
 
 	$LANGFILES[0][0] = "English (US)" ;
 	$LANGFILES[0][1] = $LANG_DIR & "\URC-ENGLISH.XML"
@@ -408,6 +409,14 @@ Func _LANG_LOAD($LANG_DIR, $user_lang) ;Chargement de la langue (Chemin des fich
 			"100c " & _ ;French_Swiss
 			"140c " & _ ;French_Luxembourg
 			"180c" ;French_Monaco
+
+	$LANGFILES[2][0] = "Deutsch" ; German
+	$LANGFILES[2][1] = $LANG_DIR & "\URC-GERMAN.XML"
+	$LANGFILES[2][2] = "0407 " & _ ;German - Germany
+			"0807 " & _ ;German - Switzerland
+			"0C07 " & _ ;German - Austria
+			"1007 " & _ ;German - Luxembourg
+			"1407 " ;German - Liechtenstein
 
 	;Set the available language files, names, and codes.
 	_MultiLang_SetFileInfo($LANGFILES)
