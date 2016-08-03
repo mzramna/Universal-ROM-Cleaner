@@ -5,12 +5,13 @@
 #AutoIt3Wrapper_Compile_Both=y
 #AutoIt3Wrapper_UseX64=y
 #AutoIt3Wrapper_Res_Description=Nettoyeur de Rom Universel
-#AutoIt3Wrapper_Res_Fileversion=2.0.0.2
+#AutoIt3Wrapper_Res_Fileversion=2.0.0.3
 #AutoIt3Wrapper_Res_Fileversion_AutoIncrement=p
 #AutoIt3Wrapper_Res_LegalCopyright=LEGRAS David
 #AutoIt3Wrapper_Res_Language=1036
 #AutoIt3Wrapper_AU3Check_Stop_OnWarning=y
 #AutoIt3Wrapper_Run_Tidy=y
+#AutoIt3Wrapper_UseUpx=n
 #Tidy_Parameters=/reel
 #EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
 
@@ -72,12 +73,13 @@ FileInstall(".\URC-config.ini", $SOURCE_DIRECTORY & "\URC-config.ini")
 FileInstall(".\LanguageFiles\URC-ENGLISH.XML", $SOURCE_DIRECTORY & "\LanguageFiles\URC-ENGLISH.XML")
 FileInstall(".\LanguageFiles\URC-FRENCH.XML", $SOURCE_DIRECTORY & "\LanguageFiles\URC-FRENCH.XML")
 FileInstall(".\LanguageFiles\URC-GERMAN.XML", $SOURCE_DIRECTORY & "\LanguageFiles\URC-GERMAN.XML")
+FileInstall(".\LanguageFiles\URC-SPANISH.XML", $SOURCE_DIRECTORY & "\LanguageFiles\URC-SPANISH.XML")
 FileInstall(".\Ressources\Universal_Rom_Cleaner.ico", $SOURCE_DIRECTORY & "\Ressources\Universal_Rom_Cleaner.ico")
 
 ;Definition des Variables
 ;-------------------------
 
-Global $LANG_DIR = $SOURCE_DIRECTORY & "\LanguageFiles"; Where we are storing the language files.
+Global $LANG_DIR = $SOURCE_DIRECTORY & "\LanguageFiles" ; Where we are storing the language files.
 Global $user_lang = IniRead($PathConfigINI, "LAST_USE", "$user_lang", "default")
 Global $path_LOG = IniRead($PathConfigINI, "GENERAL", "Path_LOG", $SOURCE_DIRECTORY & "\log.txt")
 Global $path_SIMUL = IniRead($PathConfigINI, "GENERAL", "path_SIMUL", $SOURCE_DIRECTORY & "\simulation.txt")
@@ -383,7 +385,7 @@ Func _LANG_LOAD($LANG_DIR, $user_lang) ;Chargement de la langue (Chemin des fich
 	; [n][0] = Display Name in Local Language (Used for Select Function)
 	; [n][1] = Language File (Full path.  In this case we used a $LANG_DIR
 	; [n][2] = [Space delimited] Character codes as used by @OS_LANG (used to select correct lang file)
-	Local $LANGFILES[3][3]
+	Local $LANGFILES[4][3]
 
 	$LANGFILES[0][0] = "English (US)" ;
 	$LANGFILES[0][1] = $LANG_DIR & "\URC-ENGLISH.XML"
@@ -417,6 +419,30 @@ Func _LANG_LOAD($LANG_DIR, $user_lang) ;Chargement de la langue (Chemin des fich
 			"0C07 " & _ ;German - Austria
 			"1007 " & _ ;German - Luxembourg
 			"1407 " ;German - Liechtenstein
+
+	$LANGFILES[3][0] = "Español" ; Spanish
+	$LANGFILES[3][1] = $LANG_DIR & "\URC-SPANISH.XML"
+	$LANGFILES[3][2] = "040A " & _ ;Spanish - Spain
+			"080A " & _ ;Spanish - Mexico
+			"0C0A " & _ ;Spanish - Spain
+			"100A " & _ ;Spanish - Guatemala
+			"140A " & _ ;Spanish - Costa Rica
+			"180A " & _ ;Spanish - Panama
+			"1C0A " & _ ;Spanish - Dominican Republic
+			"200A " & _ ;Spanish - Venezuela
+			"240A " & _ ;Spanish - Colombia
+			"280A " & _ ;Spanish - Peru
+			"2C0A " & _ ;Spanish - Argentina
+			"300A " & _ ;Spanish - Ecuador
+			"340A " & _ ;Spanish - Chile
+			"380A " & _ ;Spanish - Uruguay
+			"3C0A " & _ ;Spanish - Paraguay
+			"400A " & _ ;Spanish - Bolivia
+			"440A " & _ ;Spanish - El Salvador
+			"480A " & _ ;Spanish - Honduras
+			"4C0A " & _ ;Spanish - Nicaragua
+			"500A " & _ ;Spanish - Puerto Rico
+			"540A " ;Spanish - United State
 
 	;Set the available language files, names, and codes.
 	_MultiLang_SetFileInfo($LANGFILES)
@@ -494,7 +520,7 @@ Func _EXPORTATTRIB($V_ROMPath)
 	_FileWriteFromArray(@ScriptDir & "\ATTRIB.txt", $A_EX_ATTRIBUTE)
 	$A_EX_IGNORE = _GUIListViewEx_ReturnArray($I_LV_IGNORE)
 	_FileWriteFromArray(@ScriptDir & "\IGNORE.txt", $A_EX_IGNORE)
-	MsgBox(0, "EXPORT", "La liste des Attributs est Export�e : SUPPR.txt, ATTRIB.txt et IGNORE.txt dans : " & @ScriptDir)
+	MsgBox(0, "EXPORT", "La liste des Attributs est Exportée : SUPPR.txt, ATTRIB.txt et IGNORE.txt dans : " & @ScriptDir)
 EndFunc   ;==>_EXPORTATTRIB
 
 Func _IMPORTATTRIB($V_ROMPath)
