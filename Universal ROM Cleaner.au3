@@ -385,7 +385,7 @@ Func _LANG_LOAD($LANG_DIR, $user_lang) ;Chargement de la langue (Chemin des fich
 	; [n][0] = Display Name in Local Language (Used for Select Function)
 	; [n][1] = Language File (Full path.  In this case we used a $LANG_DIR
 	; [n][2] = [Space delimited] Character codes as used by @OS_LANG (used to select correct lang file)
-	Local $LANGFILES[4][3]
+	Local $LANGFILES[5][3]
 
 	$LANGFILES[0][0] = "English (US)" ;
 	$LANGFILES[0][1] = $LANG_DIR & "\URC-ENGLISH.XML"
@@ -443,6 +443,12 @@ Func _LANG_LOAD($LANG_DIR, $user_lang) ;Chargement de la langue (Chemin des fich
 			"4C0A " & _ ;Spanish - Nicaragua
 			"500A " & _ ;Spanish - Puerto Rico
 			"540A " ;Spanish - United State
+
+	$LANGFILES[4][0] = "Português" ; Spanish
+	$LANGFILES[4][1] = $LANG_DIR & "\URC-PORTUGUESE.XML"
+	$LANGFILES[4][2] = "0416 " & _ ;Português - Brasil
+			"0816 " ;Português - Portugal
+			
 
 	;Set the available language files, names, and codes.
 	_MultiLang_SetFileInfo($LANGFILES)
