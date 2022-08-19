@@ -1,0 +1,47 @@
+<gui>
+	<main_gui>Universal ROM Cleaner</main_gui>
+	<menu>
+		<mnu_file>Arquivo</mnu_file>
+		<mnu_file_langue>idiomas</mnu_file_langue>
+		<mnu_file_roms>Selecionar roms</mnu_file_roms>
+		<mnu_file_exit>Sair</mnu_file_exit>
+		<mnu_action>Comandos</mnu_action>
+		<mnu_action_simulation>Simulação</mnu_action_simulation>
+		<mnu_action_clean>Fazer limpeza</mnu_action_clean>
+		<mnu_help>Ajuda</mnu_help>
+		<mnu_help_about>Sobre</mnu_help_about>
+	</menu>
+	<windows>
+		<lv_attribute>Oganizar por atributos</lv_attribute>
+		<lv_suppress>Atributos a serem removidos</lv_suppress>
+		<lv_ignore>Atributos ignorados</lv_ignore>
+		<win_sel_langue>
+			<win_sel_langue_Title>Selecione um idioma</win_sel_langue_Title>
+			<win_sel_langue_text>Por favor selecione um idioma</win_sel_langue_text>
+			<win_sel_langue_button>Selecionar</win_sel_langue_button>
+		</win_sel_langue>
+		<win_sel_rom>
+			<win_sel_rom_Title>Seleccionar a pasta com as roms</win_sel_rom_Title>
+		</win_sel_rom>
+		<win_About>
+			<win_About_Title>Sobre</win_About_Title>
+			<win_About_By>Criado por: Screech</win_About_By>
+			<win_About_Thanks>Obrigado a:</win_About_Thanks>
+		</win_About>
+	</windows>	
+	<progressbar>
+		<prbr_clean_rom_title>Limpando as roms</prbr_clean_rom_title>
+		<prbr_clean_rom_progress1>Criando uma tabela temporária: </prbr_clean_rom_progress1>
+		<prbr_clean_rom_progress2>Movendo as roms: </prbr_clean_rom_progress2>
+		<prbr_clean_rom_progress3>Selecionando quais roms devem ser mantidas: </prbr_clean_rom_progress3>
+		<prbr_clean_rom_progress4>Escrevendo arquivo de simulação: </prbr_clean_rom_progress4>
+		<prbr_createarray_attribut_title>Carregando atributos</prbr_createarray_attribut_title>
+		<prbr_createarray_attribut_progress>Carregando atributos: </prbr_createarray_attribut_progress>
+		<prbr_createarray_rom_title>Carregando roms</prbr_createarray_rom_title>
+		<prbr_createarray_rom_progress>Carregando as roms: </prbr_createarray_rom_progress>
+		<prbr_move_rom_title>Reorganizando as roms</prbr_move_rom_title>
+		<prbr_move_rom_progress>Organizando as roms: </prbr_move_rom_progress>
+		<prbr_suppr_rom_title>Cancelando as roms</prbr_suppr_rom_title>
+		<prbr_suppr_rom_progress>Cancelando as roms: </prbr_suppr_rom_progress>
+	</progressbar>
+</gui>
