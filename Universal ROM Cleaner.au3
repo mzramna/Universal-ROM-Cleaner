@@ -74,6 +74,7 @@ FileInstall(".\LanguageFiles\URC-ENGLISH.XML", $SOURCE_DIRECTORY & "\LanguageFil
 FileInstall(".\LanguageFiles\URC-FRENCH.XML", $SOURCE_DIRECTORY & "\LanguageFiles\URC-FRENCH.XML")
 FileInstall(".\LanguageFiles\URC-GERMAN.XML", $SOURCE_DIRECTORY & "\LanguageFiles\URC-GERMAN.XML")
 FileInstall(".\LanguageFiles\URC-SPANISH.XML", $SOURCE_DIRECTORY & "\LanguageFiles\URC-SPANISH.XML")
+FileInstall(".\LanguageFiles\URC-PORTUGUESE.XML", $SOURCE_DIRECTORY & "\LanguageFiles\URC-PORTUGUESE.XML")
 FileInstall(".\Ressources\Universal_Rom_Cleaner.ico", $SOURCE_DIRECTORY & "\Ressources\Universal_Rom_Cleaner.ico")
 
 ;Definition des Variables
